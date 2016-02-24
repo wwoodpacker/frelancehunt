@@ -4,7 +4,11 @@ import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -14,14 +18,20 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+
+
+
 /**
  * Created by Назар on 24.02.2016.
  */
 public class GETTask extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... params) {
-        HttpUriRequest request = new HttpGet(url2);
-        String credentials = api_token + ":" +sing(api_secret2,url2,method2,"");
+        Log.e("Asynctask", "doinback");
+        HttpUriRequest request = new HttpGet(params[2]);
+        Sign SIGN= new Sign();
+        String otvet="";
+        String credentials = params[0] + ":" +SIGN.sing(params[1],params[2],params[3],"");
         String base64EncodedCredentials = Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
         Log.e("Login: Response", base64EncodedCredentials);
         request.addHeader("Authorization", "Basic " + base64EncodedCredentials);
@@ -36,15 +46,16 @@ public class GETTask extends AsyncTask<String, Void, String> {
         try {
             final HttpEntity entity = response.getEntity();
             if (entity == null) {
-                Log.w("no", "The response has no entity.");
+                Log.e("no", "The response has no entity.");
             } else {
-                Log.e("Response from server:",GetText(entity.getContent()));
+                otvet=SIGN.GetText(entity.getContent());
+                Log.e("Response from server:",otvet );
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return otvet;
     }
 
     @Override
@@ -55,5 +66,6 @@ public class GETTask extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
+        Log.e("Asynctask", "onpostexec");
     }
 }
