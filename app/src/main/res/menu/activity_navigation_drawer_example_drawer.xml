@@ -3,25 +3,25 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camara"
-            android:icon="@android:drawable/ic_menu_camera"
-            android:title="Import" />
+            android:id="@+id/nav_profile"
+            android:icon="@android:drawable/ic_menu_myplaces"
+            android:title="@string/profile" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_masseges"
             android:icon="@android:drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:title="@string/masseges" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_project"
             android:icon="@android:drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:title="@string/project" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@android:drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_users"
+            android:icon="@mipmap/users"
+            android:title="@string/users" />
         <item
             android:id="@+id/nav_exit"
             android:icon="@android:drawable/ic_menu_close_clear_cancel"
-            android:title="Exit" />
+            android:title="Выход" />
     </group>
 
 </menu>

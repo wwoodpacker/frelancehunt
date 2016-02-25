@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 //android.support.design.widget;
 
@@ -24,6 +25,8 @@ import com.dmcapps.navigationfragment.fragments.INavigationFragment;
 import com.dmcapps.navigationfragment.fragments.NavigationFragment;
 import com.dmcapps.navigationfragment.manager.NavigationManagerFragment;
 import com.dmcapps.navigationfragment.manager.SingleStackNavigationManagerFragment;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -33,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static String url= "https://api.freelancehunt.com/profiles/me";
     public static String method = "GET";
     public static String result="";
+    public static String jsontext="";
+    Profile profile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,44 +53,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        initialNavigationFragmentManager(NonNavigationFragment.newInstance("Non-Nav Gallery"), "Gallery1");
-    }
-   /* public void click(View v){
-
-        switch (v.getId()){
-            case R.id.btn_get:
-                GETTask getTask=new GETTask(MainActivity.this);
-                getTask.execute(api_token, api_secret, url, method);
-                try {
-                    result=getTask.get();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
-
-                break;
+        //ImageView imageView =(ImageView)findViewById(R.id.nav_heeader_image);
+        GETTask getTask=new GETTask(MainActivity.this);
+        getTask.execute(api_token, api_secret, url, method);
+        try {
+            jsontext = getTask.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.create();
+        profile = gson.fromJson(jsontext, Profile.class);
+        initialNavigationFragmentManager(ProfileFragment.newInstance(profile), profile.fname+" "+profile.sname);
 
     }
-*/
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.nav_camara) {
-            initialNavigationFragmentManager(NonNavigationFragment.newInstance("Non-Nav Gallery"), "Gallery1");
+        if (id == R.id.nav_profile) {
+             initialNavigationFragmentManager(ProfileFragment.newInstance(profile), profile.fname+" "+profile.sname);
         }
-        else if (id == R.id.nav_gallery) {
-            initialNavigationFragmentManager(NonNavigationFragment.newInstance("Non-Nav Gallery"), "Gallery2");
+        else if (id == R.id.nav_masseges) {
+            initialNavigationFragmentManager(ProfileFragment.newInstance(profile), "Сообщения");
         }
-        else if (id == R.id.nav_slideshow) {
-            initialNavigationFragmentManager(NonNavigationFragment.newInstance("Non-Nav Gallery"), "Gallery3");        }
-        else if (id == R.id.nav_manage) {
-            initialNavigationFragmentManager(NonNavigationFragment.newInstance("Non-Nav Manage"), "Gallery4");
+        else if (id == R.id.nav_project) {
+            initialNavigationFragmentManager(ProfileFragment.newInstance(profile), "Проекты");        }
+        else if (id == R.id.nav_users) {
+            initialNavigationFragmentManager(ProfileFragment.newInstance(profile), "Пользователи");
         }
-        else if (id == R.id.nav_manage) {
+        else if (id == R.id.nav_exit) {
             //initialNavigationFragmentManager(NonNavigationFragment.newInstance("Non-Nav Manage"), "Gallery4");
             //android.os.Process.killProcess(android.os.Process.myPid());
         }

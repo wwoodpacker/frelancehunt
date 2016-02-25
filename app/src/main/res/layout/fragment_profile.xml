@@ -1,0 +1,150 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    tools:context="com.dmcapps.navigationfragmentexample.DrawerExample.NonNavigationFragment">
+
+   <com.github.siyamed.shapeimageview.RoundedImageView
+       android:layout_width="120dp"
+       android:layout_height="120dp"
+       android:id="@+id/profile_img"
+       android:src="@mipmap/ic_launcher"
+       android:layout_marginLeft="25dp"
+       android:layout_marginStart="34dp"
+       android:layout_marginTop="25dp"
+       app:siRadius="6dp"
+       app:siBorderWidth="1dp"
+       app:siBorderColor="#81C784"
+       app:siSquare="true"
+       android:layout_alignParentTop="true"
+       android:layout_alignParentLeft="true"
+       android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/textfrag1"
+        android:layout_alignTop="@+id/profile_img"
+        android:layout_toRightOf="@+id/profile_img"
+        android:layout_toEndOf="@+id/profile_img"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="48dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/textfrag2"
+        android:layout_below="@+id/textfrag1"
+        android:layout_alignLeft="@+id/textfrag1"
+        android:layout_alignStart="@+id/textfrag1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/textfrag3"
+        android:layout_below="@+id/textfrag2"
+        android:layout_alignLeft="@+id/textfrag2"
+        android:layout_alignStart="@+id/textfrag2" />
+
+    <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:rcBackgroundPadding="5dp"
+
+        app:rcBackgroundColor="#c0abff9b"
+        app:rcProgressColor="#4CAF50"
+        android:id="@+id/rating1"
+        app:rcProgress="40"
+        app:rcMax="100"
+        android:layout_below="@+id/profile_img"
+        android:layout_marginTop="38dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
+    <TextView
+        android:background="#00000000"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignLeft="@+id/rating1"
+        android:layout_alignTop="@id/rating1"
+        android:layout_alignRight="@id/rating1"
+        android:layout_alignBottom="@id/rating1"
+        android:text="Global rating"
+
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:id="@+id/text_global_rating" />
+
+    <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:rcBackgroundPadding="5dp"
+
+        app:rcBackgroundColor="#c0abff9b"
+        app:rcProgressColor="#4CAF50"
+        android:id="@+id/rating2"
+        app:rcProgress="90"
+        app:rcMax="100"
+        android:layout_below="@+id/profile_img"
+        android:layout_marginTop="98dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
+    <TextView
+        android:background="#00000000"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignLeft="@+id/rating2"
+        android:layout_alignTop="@id/rating2"
+        android:layout_alignRight="@id/rating2"
+        android:layout_alignBottom="@id/rating2"
+        android:text="Rating 2"
+
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:id="@+id/text_rating2" />
+    <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:rcBackgroundPadding="5dp"
+
+        app:rcBackgroundColor="#c0abff9b"
+        app:rcProgressColor="#4CAF50"
+        android:id="@+id/rating3"
+        app:rcProgress="90"
+        app:rcMax="100"
+        android:layout_below="@+id/profile_img"
+        android:layout_marginTop="158dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
+    <TextView
+        android:background="#00000000"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignLeft="@+id/rating3"
+        android:layout_alignTop="@id/rating3"
+        android:layout_alignRight="@id/rating3"
+        android:layout_alignBottom="@id/rating3"
+        android:text="Rating 3"
+
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:id="@+id/text_rating3" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:id="@+id/imageLine"
+        android:background="@mipmap/pattern_orange"
+        android:layout_below="@+id/profile_img"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp" />
+
+</RelativeLayout>
