@@ -1,8 +1,10 @@
 package webacademy.ua.freelancehunt_beta;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,6 +27,10 @@ import org.apache.http.util.EntityUtils;
  * Created by Назар on 24.02.2016.
  */
 public class GETTask extends AsyncTask<String, Void, String> {
+    private ProgressDialog pDialog;
+    public GETTask(MainActivity activity) {
+        pDialog = new ProgressDialog(activity);
+    }
     @Override
     protected String doInBackground(String... params) {
         Log.e("Asynctask", "doinback");
@@ -37,25 +43,39 @@ public class GETTask extends AsyncTask<String, Void, String> {
         request.addHeader("Authorization", "Basic " + base64EncodedCredentials);
 
         HttpClient httpclient = new DefaultHttpClient();
+
         HttpResponse response = null;
         try {
             response = httpclient.execute(request);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            final HttpEntity entity = response.getEntity();
-            if (entity == null) {
-                Log.e("no", "The response has no entity.");
-            } else {
-                otvet=SIGN.GetText(entity.getContent());
-                Log.e("Response from server:",otvet );
+            try {
+                final HttpEntity entity = response.getEntity();
+                if (entity == null) {
+                    Log.e("no", "The response has no entity.");
+                } else {
+                    otvet=SIGN.GetText(entity.getContent());
+                    Log.e("Response from server:",otvet );
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.e("Error", "response null");
             }
-
         } catch (IOException e) {
             e.printStackTrace();
+            Log.e("Error", "not connection ");
+
+            //Toast.makeText(MainActivity.class,"Not connection",Toast.LENGTH_SHORT).show();
         }
+
         return otvet;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        pDialog.setMessage("Getting Data ...");
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(true);
+        pDialog.show();
     }
 
     @Override
@@ -66,6 +86,9 @@ public class GETTask extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
+        if (pDialog.isShowing()) {
+            pDialog.dismiss();
+        }
         Log.e("Asynctask", "onpostexec");
     }
 }
