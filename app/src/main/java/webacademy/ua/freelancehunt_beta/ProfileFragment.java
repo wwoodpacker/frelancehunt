@@ -26,12 +26,19 @@ public class ProfileFragment extends Fragment {
     private static final String LOCATION = "LOCATION";
     private static final String TYPE_USER = "TYPE_USER";
 
+    private static final String GLOBAL = "GLOBAL";
+    private static final String SKILL_ALT_NAME = "SKILL_ALT_NAME";
+    private static final String SKILL = "SKILL";
+
     public static ProfileFragment newInstance(Profile obj) {
 
         Bundle args = new Bundle();
         args.putString(IMG, obj.avatar_md);
         args.putString(LOGIN, obj.login);
         args.putString(LOCATION, obj.city_name_ru+" , "+obj.country_name_ru);
+        args.putString(GLOBAL,obj.rating_position);
+        args.putString(SKILL_ALT_NAME,obj.skill_alt_name+" "+obj.rating_position_category_alt);
+        args.putString(SKILL,obj.skill_name+" "+obj.rating_position_category);
         if (obj.is_freelancer) args.putString(TYPE_USER, "Фрилансер");
          else args.putString(TYPE_USER, "Заказчик");
 
@@ -56,6 +63,9 @@ public class ProfileFragment extends Fragment {
        ((TextView)view.findViewById(R.id.textfrag1)).setText(getArguments().getString(LOGIN));
         ((TextView)view.findViewById(R.id.textfrag2)).setText(getArguments().getString(TYPE_USER));
         ((TextView)view.findViewById(R.id.textfrag3)).setText(getArguments().getString(LOCATION));
+        ((TextView)view.findViewById(R.id.text_global_rating)).setText(getArguments().getString(GLOBAL));
+        ((TextView)view.findViewById(R.id.text_rating2)).setText(getArguments().getString(SKILL_ALT_NAME));
+        ((TextView)view.findViewById(R.id.text_rating3)).setText(getArguments().getString(SKILL));
 
         return view;
     }

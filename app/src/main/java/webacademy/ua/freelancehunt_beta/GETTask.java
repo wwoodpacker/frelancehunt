@@ -34,6 +34,7 @@ public class GETTask extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... params) {
         Log.e("Asynctask", "doinback");
+
         HttpUriRequest request = new HttpGet(params[2]);
         Sign SIGN= new Sign();
         String otvet="";

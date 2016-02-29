@@ -3,6 +3,9 @@
 
 
     <string name="action_settings">Settings</string>
+    <string name="analytics_tracking_id">UA-74482800-1</string>
+    <string name="analytics_account">wwoodpacker</string>
+    <string name="analytics_property">Freelancehunt</string>
     <string name="profile">Мой профиль</string>
     <string name="masseges">Сообщения</string>
     <string name="users">Пользователи</string>

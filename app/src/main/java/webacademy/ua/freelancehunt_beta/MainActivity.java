@@ -1,7 +1,10 @@
 package webacademy.ua.freelancehunt_beta;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -37,12 +40,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static String method = "GET";
     public static String result="";
     public static String jsontext="";
-    Profile profile;
+    public static Profile profile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation_drawer_example);
+        AnalyticsApp.initialize(this);
+        AnalyticsApp.getInstance().get(AnalyticsApp.Target.APP);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //toolbar.se
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -54,7 +60,59 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         //ImageView imageView =(ImageView)findViewById(R.id.nav_heeader_image);
-        GETTask getTask=new GETTask(MainActivity.this);
+            if(isOnline(this)) {
+                getProfile(MainActivity.this);
+                initialNavigationFragmentManager(ProfileFragment.newInstance(profile), profile.fname + " " + profile.sname);
+            }
+        else Toast.makeText(this,"Отсутствует интернет!",Toast.LENGTH_SHORT).show();
+    }
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.nav_profile) {
+            if(isOnline(this)) {
+                if (profile==null) {getProfile(MainActivity.this);}
+                    initialNavigationFragmentManager(ProfileFragment.newInstance(profile), profile.fname + " " + profile.sname);
+            }
+            else Toast.makeText(this,"Отсутствует интернет!",Toast.LENGTH_SHORT).show();
+        }
+        else if (id == R.id.nav_masseges) {
+            if(isOnline(this)) {
+                if (profile==null) {getProfile(MainActivity.this);}
+                initialNavigationFragmentManager(ProfileFragment.newInstance(profile),"Сообщения");
+            }
+            else Toast.makeText(this,"Отсутствует интернет!",Toast.LENGTH_SHORT).show();
+        }
+        else if (id == R.id.nav_project) {
+            if(isOnline(this)) {
+                if (profile==null) {getProfile(MainActivity.this);}
+                initialNavigationFragmentManager(ProfileFragment.newInstance(profile),"Проекты");
+            }
+            else Toast.makeText(this,"Отсутствует интернет!",Toast.LENGTH_SHORT).show();
+            }
+        else if (id == R.id.nav_users) {
+            if(isOnline(this)) {
+                if (profile==null) {getProfile(MainActivity.this);}
+                initialNavigationFragmentManager(ProfileFragment.newInstance(profile),"Пользователи");
+            }
+            else Toast.makeText(this,"Отсутствует интернет!",Toast.LENGTH_SHORT).show();
+            }
+
+        else if (id == R.id.nav_exit) {
+            if(isOnline(this)) {
+                if (profile==null) {getProfile(MainActivity.this);}
+                initialNavigationFragmentManager(ProfileFragment.newInstance(profile),"Выход");
+            }
+            else Toast.makeText(this,"Отсутствует интернет!",Toast.LENGTH_SHORT).show();
+        }
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+    public static void getProfile(MainActivity activity)
+    {
+        GETTask getTask = new GETTask(activity);
         getTask.execute(api_token, api_secret, url, method);
         try {
             jsontext = getTask.get();
@@ -66,32 +124,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         profile = gson.fromJson(jsontext, Profile.class);
-        initialNavigationFragmentManager(ProfileFragment.newInstance(profile), profile.fname+" "+profile.sname);
-
     }
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.nav_profile) {
-             initialNavigationFragmentManager(ProfileFragment.newInstance(profile), profile.fname+" "+profile.sname);
+    public static boolean isOnline(Context context)
+    {
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting())
+        {
+            return true;
         }
-        else if (id == R.id.nav_masseges) {
-            initialNavigationFragmentManager(ProfileFragment.newInstance(profile), "Сообщения");
-        }
-        else if (id == R.id.nav_project) {
-            initialNavigationFragmentManager(ProfileFragment.newInstance(profile), "Проекты");        }
-        else if (id == R.id.nav_users) {
-            initialNavigationFragmentManager(ProfileFragment.newInstance(profile), "Пользователи");
-        }
-        else if (id == R.id.nav_exit) {
-            //initialNavigationFragmentManager(NonNavigationFragment.newInstance("Non-Nav Manage"), "Gallery4");
-            //android.os.Process.killProcess(android.os.Process.myPid());
-        }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+        return false;
     }
+
     public void initialNavigationFragmentManager(Fragment firstFragment, @Nullable String title) {
         if (title != null) {
             setTitle(title);
